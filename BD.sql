@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 12, 2020 at 12:20 PM
+-- Generation Time: Feb 23, 2020 at 06:01 PM
 -- Server version: 5.7.19
 -- PHP Version: 5.6.31
 
@@ -90,6 +90,7 @@ CREATE TABLE IF NOT EXISTS `commentaire` (
   `userId` int(11) NOT NULL,
   `questionId` int(11) NOT NULL,
   `texteCommentaire` varchar(250) NOT NULL,
+  `score` int(11) NOT NULL DEFAULT '0',
   `dateCommentaire` date NOT NULL,
   PRIMARY KEY (`userId`,`questionId`,`dateCommentaire`),
   KEY `fk_commentairequestionId` (`questionId`),
@@ -100,8 +101,8 @@ CREATE TABLE IF NOT EXISTS `commentaire` (
 -- Dumping data for table `commentaire`
 --
 
-INSERT INTO `commentaire` (`userId`, `questionId`, `texteCommentaire`, `dateCommentaire`) VALUES
-(23, 5, 'Salut Malek, j\'ai trouvé ton portefeuille, tu peux me contacter je te le rends.', '2020-02-11');
+INSERT INTO `commentaire` (`userId`, `questionId`, `texteCommentaire`, `score`, `dateCommentaire`) VALUES
+(23, 5, 'Salut Malek, j\'ai trouvé ton portefeuille, tu peux me contacter je te le rends.', 0, '2020-02-11');
 
 -- --------------------------------------------------------
 
@@ -147,7 +148,17 @@ CREATE TABLE IF NOT EXISTS `evenement` (
   `porteeEvenement` varchar(250) NOT NULL,
   `prixEvenement` int(11) NOT NULL,
   PRIMARY KEY (`evenementId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `evenement`
+--
+
+INSERT INTO `evenement` (`evenementId`, `descriptionEvenement`, `lieuEvenement`, `dateEvenement`, `heureEvenement`, `porteeEvenement`, `prixEvenement`) VALUES
+(1, 'Visite des malades', 'Tunis', '2020-02-05', '22:42:00', 'Personnes agées', 0),
+(2, 'Visite des malades', 'Tunis', '2020-02-05', '22:44:00', 'Personnes agées', 0),
+(3, 'Visite des malades', 'Tunis', '2020-02-05', '22:44:00', 'Personnes agées', 0),
+(4, 'Visite des malades', 'Tunis', '2020-02-05', '22:44:00', 'Personnes agées', 0);
 
 -- --------------------------------------------------------
 
@@ -175,18 +186,19 @@ CREATE TABLE IF NOT EXISTS `question` (
   `questionId` int(11) NOT NULL AUTO_INCREMENT,
   `texteQuestion` varchar(255) NOT NULL,
   `dateQuestion` date NOT NULL,
+  `score` int(11) NOT NULL DEFAULT '0',
   `userId` int(11) NOT NULL,
   PRIMARY KEY (`questionId`),
   KEY `userId` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `question`
 --
 
-INSERT INTO `question` (`questionId`, `texteQuestion`, `dateQuestion`, `userId`) VALUES
-(5, 'Bonsoir tout le monde, auriez vous vu un portefeuille marron à ESPRIT Ghazela? Je l\'ai perdu aujourd\'hui dans la buvette.', '2020-02-11', 22),
-(11, 'Bonsoir, est ce quelqu\'un a perdu un portefeuille marron à ESPRIT? Je l\'a trouvé aujourd\'hui à la buvette.', '2020-02-11', 23);
+INSERT INTO `question` (`questionId`, `texteQuestion`, `dateQuestion`, `score`, `userId`) VALUES
+(5, 'Bonsoir tout le monde, auriez vous vu un portefeuille marron à ESPRIT Ghazela? Je l\'ai perdu aujourd\'hui dans la buvette.', '2020-02-11', 0, 22),
+(15, 'Bonsoir, est ce quelqu\'un a perdu un portefeuille marron à ESPRIT? Je l\'a trouvé aujourd\'hui à la buvette.', '2020-02-17', 0, 23);
 
 -- --------------------------------------------------------
 
@@ -225,19 +237,21 @@ CREATE TABLE IF NOT EXISTS `user` (
   `pays` varchar(250) DEFAULT NULL,
   `domaine` varchar(250) DEFAULT NULL,
   `role` varchar(250) NOT NULL,
+  `accesShakeHub` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`userId`),
   UNIQUE KEY `userId` (`userId`),
   UNIQUE KEY `login` (`login`,`email`),
   UNIQUE KEY `telephone` (`telephone`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`userId`, `login`, `password`, `nomUser`, `prenomUser`, `email`, `telephone`, `nomOrganisation`, `ville`, `rue`, `pays`, `domaine`, `role`) VALUES
-(22, 'Malek', '1234', NULL, NULL, 'malek.takta2k@esprit.tn', NULL, NULL, NULL, NULL, NULL, NULL, 'admin'),
-(23, 'Mohamed', '1212', NULL, NULL, 'mohamed2@esprit.tn', NULL, NULL, NULL, NULL, NULL, NULL, 'admin');
+INSERT INTO `user` (`userId`, `login`, `password`, `nomUser`, `prenomUser`, `email`, `telephone`, `nomOrganisation`, `ville`, `rue`, `pays`, `domaine`, `role`, `accesShakeHub`) VALUES
+(22, 'Malek', '1234', NULL, NULL, 'malek.taktak@esprit.tn', NULL, NULL, NULL, NULL, NULL, NULL, 'admin', 1),
+(23, 'Mohamed', '1212', NULL, NULL, 'mohamed2@esprit.tn', NULL, NULL, NULL, NULL, NULL, NULL, 'admin', 1),
+(24, 'Ahmed', 'moncef', NULL, NULL, 'abdelkarim@esprit.tn', NULL, NULL, NULL, NULL, NULL, NULL, 'user simple', 1);
 
 -- --------------------------------------------------------
 
