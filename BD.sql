@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 23, 2020 at 06:01 PM
+-- Generation Time: Feb 24, 2020 at 03:56 PM
 -- Server version: 5.7.19
 -- PHP Version: 5.6.31
 
@@ -36,9 +36,7 @@ CREATE TABLE IF NOT EXISTS `aide` (
   `descriptionAide` varchar(250) NOT NULL,
   `localisationAide` varchar(250) NOT NULL,
   `categorieAide` varchar(250) NOT NULL,
-  `userId` int(11) NOT NULL,
-  PRIMARY KEY (`aideId`),
-  KEY `userId` (`userId`)
+  PRIMARY KEY (`aideId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -71,12 +69,13 @@ CREATE TABLE IF NOT EXISTS `beneficiaire` (
   `prenomBeneficiaire` varchar(250) NOT NULL,
   `email` varchar(250) NOT NULL,
   `dateNaissance` date NOT NULL,
-  `nationalite` varchar(250) NOT NULL,
+  `ville` varchar(250) NOT NULL,
   `telephone` int(11) NOT NULL,
   `adresseGPS` varchar(250) NOT NULL,
   `role` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`beneficiaireId`),
-  KEY `aideId` (`aideId`)
+  `besoin` varchar(250) DEFAULT NULL,
+  `nationalite` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`beneficiaireId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -102,6 +101,7 @@ CREATE TABLE IF NOT EXISTS `commentaire` (
 --
 
 INSERT INTO `commentaire` (`userId`, `questionId`, `texteCommentaire`, `score`, `dateCommentaire`) VALUES
+(22, 5, 'Merci Mohamed, est ce que je peux le récupèrer demain à 10H du matin dans la buvette?', 0, '2020-02-23'),
 (23, 5, 'Salut Malek, j\'ai trouvé ton portefeuille, tu peux me contacter je te le rends.', 0, '2020-02-11');
 
 -- --------------------------------------------------------
@@ -275,22 +275,10 @@ CREATE TABLE IF NOT EXISTS `utilisationrefuge` (
 --
 
 --
--- Constraints for table `aide`
---
-ALTER TABLE `aide`
-  ADD CONSTRAINT `fk_aideUser` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `article`
 --
 ALTER TABLE `article`
   ADD CONSTRAINT `fk_useridarticle` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `beneficiaire`
---
-ALTER TABLE `beneficiaire`
-  ADD CONSTRAINT `fk_aideBeneficiaire` FOREIGN KEY (`aideId`) REFERENCES `aide` (`aideId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `commentaire`
